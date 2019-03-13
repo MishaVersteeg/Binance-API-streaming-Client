@@ -48,7 +48,7 @@
         <p>{{serverTime}}</p>
       </div>
 
-      <v-btn flat class="mt-1 hidden-sm-and-down" href="https://github.com/MishaVersteeg/Vue_BinanceClient">
+      <v-btn flat class="mt-1 hidden-sm-and-down" href="https://github.com/MishaVersteeg/Binance-API-streaming-Client">
         <img src="./assets/github.png" height="25">
         <img>
       </v-btn>

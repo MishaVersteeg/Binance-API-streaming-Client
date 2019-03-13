@@ -5,7 +5,7 @@
       <v-card class="ml-2 mr-2">
         <v-layout row wrap>
           <v-flex xs3 md3>
-            <h2 class="ml-4 mt-4" font-color="{color: getColor()}">{{tickData.lastPrice}}</h2>
+            <h2 class="ml-4 mt-4">{{tickData.lastPrice}}</h2>
             <p class="mt-4 ml-4">{{dataStore.selectedSymbol}}</p>
           </v-flex>
 
@@ -14,18 +14,16 @@
             <p class="mt-4">{{"volume"}}</p>
           </v-flex>
 
-            <v-flex xs3 class="hidden-sm-and-down">
+          <v-flex xs3 class="hidden-sm-and-down">
             <p class="mt-4">{{dataStore.tickData[dataStore.selectedSymbol].highPrice}}</p>
             <p class="mt-4">{{"high price 24h"}}</p>
           </v-flex>
 
-            <v-flex xs3 class="hidden-sm-and-down">
+          <v-flex xs3 class="hidden-sm-and-down">
             <p class="mt-4">{{dataStore.tickData[dataStore.selectedSymbol].lowPrice}}</p>
             <p class="mt-4">{{"low price 24h"}}</p>
           </v-flex>
         </v-layout>
-
-        
 
         <v-layout>
           <v-flex xs6 lg2>
@@ -124,16 +122,6 @@ export default {
       selectedCandleInterval: "1m",
       selectedLineInterval: "1m"
     };
-  },
-  methods: {
-    getColor(oldVal, newVal) {
-      if (newVal > oldVal) {
-        return "#58a04d";
-      }
-      if (newVal < oldVal) {
-        return "#b71c1c";
-      }
-    }
   },
   watch: {
     selectedCandleInterval() {

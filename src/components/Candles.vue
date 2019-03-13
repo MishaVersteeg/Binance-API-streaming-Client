@@ -46,6 +46,7 @@ export default {
           }
         },
         yaxis: {
+          decimalsInFloat: 6,
           labels: {
             style: {
               color: "#a5aaa0"
@@ -70,8 +71,8 @@ export default {
   },
   mounted() {
     bus.$on("renderCandles", data => {
-      this.updateChart += 1
-      this.series = [{ data: dataStore.candles }]
+      this.updateChart += 1;
+      this.series = [{ data: dataStore.candles }];
       this.chartOptions.title.text = dataStore.selectedSymbol + " - " + dataStore.selectedCandleInterval;
       this.chartOptions.yaxis.max = data[0];
       this.chartOptions.yaxis.min = data[1];

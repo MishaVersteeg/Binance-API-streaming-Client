@@ -1,6 +1,6 @@
 <template>
   <v-layout>
-    <v-flex xs8 offset-xs2 mt-4>
+    <v-flex xs12 lg10 offset-lg1 mt-4>
       <v-data-table :headers="headers" :items="tableRows" rows-per-page-text="10">
         <template v-slot:items="props">
           <td @click="seeDetails(props.item.symbol)" id="table">{{ props.item.symbol }}</td>
@@ -51,26 +51,26 @@ export default {
         { text: "24h low", value: "lowPrice" },
         { text: "24h volume", value: "volume" }
       ]
-    }
+    };
   },
   methods: {
     getColor(tickData) {
       if (tickData.lastPrice > tickData.prevLastPrice) {
-        return "#58a04d"
+        return "#58a04d";
       }
       if (tickData.lastPrice < tickData.prevLastPrice) {
-        return "#b71c1c"
+        return "#b71c1c";
       }
     },
     seeDetails(symbol) {
-      this.$router.push({ path: "./home/visual/" })
+      this.$router.push({ path: "./home/visual/" });
       dataStore.getVisuals(symbol);
     }
   },
 
   computed: {
     tableRows: function() {
-      return Object.values(this.dataStore.tickData)
+      return Object.values(this.dataStore.tickData);
     }
   }
 };
@@ -78,16 +78,16 @@ export default {
 
 <style scoped>
 #lastPrice {
-  text-decoration: none
+  text-decoration: none;
 }
 
 #table {
   text-decoration: none;
-  color: "#a5aaa0"
+  color: "#a5aaa0";
 }
 
 td:hover {
-  cursor: pointer
+  cursor: pointer;
 }
 </style>
 

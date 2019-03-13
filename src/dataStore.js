@@ -1,7 +1,6 @@
 import axios from "axios";
 import Vue from "vue";
 import { bus } from './main';
-import { timingSafeEqual } from "crypto";
 
 setInterval(function () {
   if (dataStore.serverTime) {
@@ -45,6 +44,7 @@ export const dataStore = new Vue({
     this.loadSymbols()
     this.openTickerStream()
     this.getServerTime()
+    this.getVisuals('BTCUSDT')
   },
 
   methods: {
@@ -65,18 +65,18 @@ export const dataStore = new Vue({
 
     getVisuals(symbol) {
       this.selectedSymbol = symbol;
-      this.loadCandleData();
-      this.loadLineData();
+      this.loadCandleData()
+      this.loadLineData()
     },
 
     updateCandleInterval(interval) {
       this.selectedCandleInterval = interval;
-      this.loadCandleData();
+      this.loadCandleData()
     },
 
     updateLineInterval(interval) {
       this.selectedLineInterval = interval;
-      this.loadLineData();
+      this.loadLineData()
     },
 
     openTickerStream() {
@@ -123,18 +123,17 @@ export const dataStore = new Vue({
 
     loadCandleData() {
 
-      try { this.candleSocket.close() } catch (err) { console.log(err) };
+      try { this.candleSocket.close() } catch (err) { console.log(err) }
 
-      this.candles = new Array;
-      this.candleHighest = 0;
+      this.candles = new Array
+      this.candleHighest = 0
       this.candleLowest = 10000
 
-      this.callApi(encodeURIComponent(`klines?symbol=${this.selectedSymbol}&interval=${this.selectedCandleInterval}&limit=80`), data => {
-        let rawData = data;
+      this.callApi(encodeURIComponent(`klines?symbol=${this.selectedSymbol}&interval=${this.selectedCandleInterval}&limit=80`), data => { let rawData = data
 
         for (let i = 0; i < rawData.length; i++) {
           for (let ii = 0; ii < rawData[i].length; ii++) {
-            let t = parseFloat(rawData[i][ii]);
+            let t = parseFloat(rawData[i][ii])
             rawData[i][ii] = t
           }
         }
@@ -147,17 +146,17 @@ export const dataStore = new Vue({
         })
 
         // open new websocket candle stream:
-        this.candleSocket = new WebSocket(`wss://stream.binance.com:9443/ws/${this.selectedSymbol.toLowerCase()}@kline_${this.selectedCandleInterval}`);
+        this.candleSocket = new WebSocket(`wss://stream.binance.com:9443/ws/${this.selectedSymbol.toLowerCase()}@kline_${this.selectedCandleInterval}`)
 
         this.candleSocket.onmessage = msgevent => {
           rawData = JSON.parse(msgevent.data, function (key, value) { return value })
 
-          this.candleStream = [rawData.k.t, [rawData.k.o, rawData.k.h, rawData.k.l, rawData.k.c]];
+          this.candleStream = [rawData.k.t, [rawData.k.o, rawData.k.h, rawData.k.l, rawData.k.c]]
 
           if (this.candleStream[0] != this.candles[this.candles.length - 1][0]) {
             this.candles.shift()
             this.candles.push(this.candleStream)
-          } else { this.candles.pop(); this.candles.push(this.candleStream); }
+          } else { this.candles.pop(); this.candles.push(this.candleStream) }
         }
 
         //computing xaxis range:
@@ -167,10 +166,10 @@ export const dataStore = new Vue({
 
     loadLineData() {
 
-      try { this.graphSocket.close() } catch (err) { console.log(err) };
+      try { this.graphSocket.close() } catch (err) { console.log(err) }
 
-      this.graphData = new Array;
-      this.graphHighest = 0;
+      this.graphData = new Array
+      this.graphHighest = 0
       this.graphLowest = 10000
 
       this.callApi(encodeURIComponent(`klines?symbol=${this.selectedSymbol}&interval=${this.selectedLineInterval}&limit=80`), data => {
@@ -179,7 +178,7 @@ export const dataStore = new Vue({
 
         for (let i = 0; i < rawLineData.length; i++) {
           for (let ii = 0; ii < rawLineData[i].length; ii++) {
-            let t = parseFloat(rawLineData[i][ii]);
+            let t = parseFloat(rawLineData[i][ii])
             rawLineData[i][ii] = t
           }
         }

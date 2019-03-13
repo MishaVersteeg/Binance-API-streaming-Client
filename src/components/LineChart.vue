@@ -1,12 +1,12 @@
 
 <template>
   <div id="chart">
-    <apexchart 
-    type="area" 
-    height="350" 
-    :options="chartOptions" 
-    :series="series"
-    :key="updateChart"
+    <apexchart
+      type="area"
+      height="350"
+      :options="chartOptions"
+      :series="series"
+      :key="updateChart"
     />
   </div>
 </template>
@@ -66,12 +66,7 @@ export default {
           }
         },
         tooltip: {
-          shared: false,
-          y: {
-            formatter: function(val) {
-              return (val / 1000000).toFixed(0);
-            }
-          }
+          enabled: false,
         },
         xaxis: {
           type: "datetime",
@@ -82,6 +77,7 @@ export default {
           }
         },
         yaxis: {
+          decimalsInFloat: 6,
           labels: {
             style: {
               color: "#a5aaa0"
@@ -93,9 +89,9 @@ export default {
   },
   mounted() {
     bus.$on("renderGraph", data => {
-      (this.updateChart += 1), (this.series = [{ data: dataStore.graphData }]);
-      this.chartOptions.title.text =
-        dataStore.selectedSymbol + " - " + dataStore.selectedLineInterval;
+      this.updateChart += 1
+      this.series = [{ data: dataStore.graphData }];
+      this.chartOptions.title.text = dataStore.selectedSymbol + " - " + dataStore.selectedLineInterval;
       this.chartOptions.yaxis.max = data[0];
       this.chartOptions.yaxis.min = data[1];
     });
