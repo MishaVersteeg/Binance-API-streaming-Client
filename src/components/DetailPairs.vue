@@ -65,7 +65,6 @@ export default {
     seeDetails(symbol) {
       this.$router.push({ path: "./home/visual/" })
       dataStore.getVisuals(symbol);
-      console.log(symbol);
     }
   },
 
